@@ -16,6 +16,10 @@ public class RegisterRequest {
         this.role = role;
     }
 
+    public RegisterRequest() {
+
+    }
+
     public String getEmail() {
         return email;
     }
