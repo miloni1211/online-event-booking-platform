@@ -23,6 +23,8 @@ public class BookingEventConsumer {
         this.objectMapper = objectMapper;
     }
 
+
+
     // LISTEN TO BOOKING CONFIRMED TOPIC
     // WHY: @KafkaListener automatically triggers
     // this method when message arrives on topic
@@ -65,6 +67,106 @@ public class BookingEventConsumer {
         } catch (Exception e) {
             System.out.println(
                     "Error processing booking confirmed: "
+                            + e.getMessage());
+        }
+    }
+
+    // WHY: Notify customer payment confirmed
+    @KafkaListener(
+            topics = "payment-confirmed",
+            groupId = "notification-group"
+    )
+    public void handlePaymentConfirmed(String message) {
+        try {
+            Map<String, Object> event = objectMapper
+                    .readValue(message, Map.class);
+
+            Notification notification = new Notification();
+            notification.setUserId(
+                    (String) event.get("customerId"));
+            notification.setEventId(
+                    (String) event.get("eventId"));
+            notification.setType(
+                    NotificationType.BOOKING_CONFIRMED);
+            notification.setMessage(
+                    "Payment successful! Your booking " +
+                            "is confirmed. Amount paid: $" +
+                            ((Number) event.get("amount")).longValue() / 100);
+            notification.setCreatedAt(
+                    LocalDateTime.now().toString());
+            notification.setRead(false);
+
+            notificationRepository.save(notification);
+
+        } catch (Exception e) {
+            System.out.println(
+                    "Error handling payment confirmed notification: "
+                            + e.getMessage());
+        }
+    }
+
+    // WHY: Notify customer payment failed
+    @KafkaListener(
+            topics = "payment-failed",
+            groupId = "notification-group"
+    )
+    public void handlePaymentFailed(String message) {
+        try {
+            Map<String, Object> event = objectMapper
+                    .readValue(message, Map.class);
+
+            Notification notification = new Notification();
+            notification.setUserId(
+                    (String) event.get("customerId"));
+            notification.setEventId(
+                    (String) event.get("eventId"));
+            notification.setType(
+                    NotificationType.BOOKING_CANCELLED);
+            notification.setMessage(
+                    "Payment failed. Your booking has " +
+                            "been cancelled and seats released.");
+            notification.setCreatedAt(
+                    LocalDateTime.now().toString());
+            notification.setRead(false);
+
+            notificationRepository.save(notification);
+
+        } catch (Exception e) {
+            System.out.println(
+                    "Error handling payment failed notification: "
+                            + e.getMessage());
+        }
+    }
+
+    // WHY: Notify customer payment refunded
+    @KafkaListener(
+            topics = "payment-refunded",
+            groupId = "notification-group"
+    )
+    public void handlePaymentRefunded(String message) {
+        try {
+            Map<String, Object> event = objectMapper
+                    .readValue(message, Map.class);
+
+            Notification notification = new Notification();
+            notification.setUserId(
+                    (String) event.get("customerId"));
+            notification.setEventId(
+                    (String) event.get("eventId"));
+            notification.setType(
+                    NotificationType.BOOKING_CANCELLED);
+            notification.setMessage(
+                    "Your payment has been refunded. " +
+                            "Amount will reflect in 3-5 business days.");
+            notification.setCreatedAt(
+                    LocalDateTime.now().toString());
+            notification.setRead(false);
+
+            notificationRepository.save(notification);
+
+        } catch (Exception e) {
+            System.out.println(
+                    "Error handling payment refunded notification: "
                             + e.getMessage());
         }
     }
