@@ -360,15 +360,3 @@ STRIPE_SECRET_KEY=sk_test_your_stripe_key
 # AI Service
 GROQ_API_KEY=gsk_your_groq_api_key
 ```
-
-> See `.env.example` in each service folder for complete list.
-
----
-
-## 👤 Author
-
-Built as a production-grade portfolio project demonstrating microservices architecture, event-driven design, AI integration and payment processing.
-
----
-
-*Built with Java 21 | Spring Boot | Kafka | Redis | MongoDB | Spring AI | Stripe*
