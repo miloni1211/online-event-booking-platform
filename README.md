@@ -1,10 +1,10 @@
-# 🎟️ Online Event Booking Platform
+# Online Event Booking Platform
 
 A production-grade, AI-powered event booking platform built with Java Spring Boot microservices architecture. The platform handles concurrent bookings, processes payments via Stripe, delivers async notifications through Apache Kafka, and provides intelligent AI features powered by Spring AI and Groq LLaMA 3.3.
 
 ---
 
-## 📌 Table of Contents
+## Table of Contents
 - [Overview](#overview)
 - [Class Diagram](#class-diagram)
 - [Tech Stack](#tech-stack)
@@ -16,7 +16,7 @@ A production-grade, AI-powered event booking platform built with Java Spring Boo
 
 ---
 
-## 🧩 Overview
+## Overview
 
 This platform allows:
 - **Organizers** to create, update and cancel events
@@ -26,7 +26,7 @@ This platform allows:
 
 ---
 
-## 📐 Class Diagram
+## Class Diagram
 
 ```mermaid
 classDiagram
@@ -164,7 +164,7 @@ classDiagram
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Category | Technology | Purpose |
 |---|---|---|
@@ -182,7 +182,7 @@ classDiagram
 
 ---
 
-## 📦 Services
+## Services
 
 | Service | Port | Responsibility |
 |---|---|---|
@@ -195,45 +195,45 @@ classDiagram
 
 ---
 
-## ✨ Features
+## Features
 
-### 🔐 Security
+### Security
 - Stateless JWT authentication across all microservices
 - Role-based access control (CUSTOMER vs ORGANIZER)
 - User impersonation prevention via JWT claim validation
 - Path-level endpoint protection with Spring Security
 
-### 🎫 Booking
+### Booking
 - Concurrent booking protection using atomic MongoDB operations
 - Optimistic locking with `@Version` field as safety net
 - Fail-fast validation before any database operations
 - Zero overbooking under simulated high concurrent load
 
-### 💳 Payments
+### Payments
 - Stripe Payment Intent creation and confirmation
 - Automated refund processing on booking cancellation
 - Payment lifecycle management (PENDING → SUCCESS → REFUNDED)
 - Test and production mode via environment-based configuration
 
-### 📨 Notifications
+### Notifications
 - Async notification delivery via Apache Kafka
 - Zero notification loss — Kafka persists messages during downtime
 - Notification types: booking confirmed, cancelled, payment refunded
 - Mark as read functionality
 
-### ⚡ Performance
+### Performance
 - Redis caching for active events (10-minute TTL)
 - Cache eviction on event updates/cancellations
 - ~60% reduction in MongoDB queries for frequently accessed data
 
-### 🤖 AI Features (Spring AI + Groq LLaMA 3.3)
+### AI Features (Spring AI + Groq LLaMA 3.3)
 - **Smart Search**: Natural language event search
 - **Recommendations**: Personalized event suggestions based on booking history
 - **Description Generator**: AI-generated professional event descriptions
 
 ---
 
-## 📡 API Endpoints
+## API Endpoints
 
 ### User Service (8081)
 | Method | Endpoint | Description | Auth |
@@ -287,7 +287,7 @@ classDiagram
 
 ---
 
-## 🚀 How to Run Locally
+## How to Run Locally
 
 ### Prerequisites
 
@@ -343,7 +343,7 @@ Import the Postman collection from `/postman` folder and test all endpoints.
 
 ---
 
-## 🔐 Environment Variables
+## Environment Variables
 
 Create these in your IDE run configuration for each service:
 
